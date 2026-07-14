@@ -37,7 +37,17 @@
     <!-- Styles customisés -->
     <link href="style.css" rel="stylesheet">
 </head>
-<body class="antialiased min-h-screen flex flex-col font-sans bg-bg-slate text-text-light">
+<body class="antialiased min-h-screen flex flex-col font-sans bg-bg-slate text-text-light overflow-hidden">
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 bg-[#0f1417] flex flex-col items-center justify-center z-[9999] transition-all duration-1000">
+        <div class="text-center space-y-4">
+            <h1 class="text-xl md:text-3xl font-extrabold text-white tracking-widest uppercase opacity-0 transform translate-y-4 transition-all duration-1000 ease-out" id="splash-text">
+                Welcome to my portfolio website
+            </h1>
+            <div class="w-16 h-[2px] bg-gradient-to-r from-blue-500 to-emerald-400 mx-auto rounded scale-x-0 transition-transform duration-1000 delay-500" id="splash-bar"></div>
+        </div>
+    </div>
 
     <!-- Admin Top Banner (Visible uniquement lorsque connecté) -->
     <div id="admin-banner" class="hidden fixed top-0 left-0 w-full admin-banner text-white px-4 py-2 flex justify-between items-center z-[100] text-sm font-semibold">

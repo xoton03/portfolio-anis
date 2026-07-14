@@ -25,25 +25,63 @@ const toast = document.getElementById("toast");
 
 // ON LOAD INITIALIZATION
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Fetch initial data from Supabase
+    // 1. Run the entrance splash screen animation
+    runSplashScreen();
+
+    // 2. Fetch initial data from Supabase
     fetchProfile();
     fetchProjects();
 
-    // 2. Setup SPA Routing links
+    // 3. Setup SPA Routing links
     setupRouting();
 
-    // 3. Setup Auth listener
+    // 4. Setup Auth listener
     setupAuth();
 
-    // 4. Setup Forms and Event Listeners
+    // 5. Setup Forms and Event Listeners
     setupEventListeners();
 
-    // 5. Scroll animation triggers
+    // 6. Scroll animation triggers
     setupScrollAnimations();
     
     // Set current year in footer
     document.getElementById("current-year").textContent = new Date().getFullYear();
 });
+
+// Splash Screen Animation Logic
+function runSplashScreen() {
+    const splashText = document.getElementById("splash-text");
+    const splashBar = document.getElementById("splash-bar");
+    const splashScreen = document.getElementById("splash-screen");
+
+    // 1. Trigger text fade-in and slide-up, and scale the gradient bar
+    setTimeout(() => {
+        if (splashText) {
+            splashText.classList.remove("opacity-0", "translate-y-4");
+            splashText.classList.add("opacity-100", "translate-y-0");
+        }
+        if (splashBar) {
+            splashBar.classList.remove("scale-x-0");
+            splashBar.classList.add("scale-x-100");
+        }
+    }, 200);
+
+    // 2. Fade out the splash screen overlay and restore scrolling
+    setTimeout(() => {
+        if (splashScreen) {
+            splashScreen.classList.add("splash-fade-out");
+        }
+        document.body.classList.remove("overflow-hidden");
+    }, 2500);
+
+    // 3. Complete cleanup: remove the splash screen element from the DOM after transition finishes
+    setTimeout(() => {
+        if (splashScreen) {
+            splashScreen.remove();
+        }
+    }, 3600);
+}
+
 
 // ==================== DATABASE OPERATION FUNCTIONS ====================
 

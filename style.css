@@ -226,3 +226,11 @@ body {
     padding-bottom: 0.5rem;
     border-radius: 0 4px 4px 0;
 }
+
+/* Splash Screen Transitions */
+.splash-fade-out {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
