@@ -351,8 +351,14 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="flex flex-col gap-1">
-                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-image">URL de l'image de couverture</label>
-                        <input class="w-full bg-[#12181b] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" id="form-project-image" type="text" placeholder="https://ex.com/image.jpg">
+                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-image">Image de couverture</label>
+                        <div class="flex gap-2">
+                            <input class="w-full bg-[#12181b] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" id="form-project-image" type="text" placeholder="https://ex.com/image.jpg">
+                            <input type="file" id="form-project-image-file" accept="image/*" class="hidden">
+                            <button type="button" id="btn-upload-project-image" class="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/20 rounded-lg px-3 py-2 text-xs font-semibold flex items-center gap-1 transition active:scale-95 whitespace-nowrap">
+                                <span class="material-symbols-outlined text-[16px]">upload</span> Charger
+                            </button>
+                        </div>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-tags">Tags (séparés par des virgules)</label>
@@ -418,8 +424,14 @@
             
             <form id="extra-fields-form" class="space-y-4">
                 <div class="flex flex-col gap-1">
-                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-extra-avatar">URL Image de Profil</label>
-                    <input class="w-full bg-[#12181b] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" id="form-extra-avatar" type="text" placeholder="https://ex.com/avatar.png">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-extra-avatar">Image de Profil</label>
+                    <div class="flex gap-2">
+                        <input class="w-full bg-[#12181b] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" id="form-extra-avatar" type="text" placeholder="https://ex.com/avatar.png">
+                        <input type="file" id="form-extra-avatar-file" accept="image/*" class="hidden">
+                        <button type="button" id="btn-upload-avatar" class="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/20 rounded-lg px-3 py-2 text-xs font-semibold flex items-center gap-1 transition active:scale-95 whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[16px]">upload</span> Charger
+                        </button>
+                    </div>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-extra-cv">URL du CV (Téléchargement)</label>

@@ -165,6 +165,23 @@ MarketFlow agrège les données issues de Google Ads, Meta Ads et TikTok Ads dan
 
 ---
 
+## 🗄️ Configuration du Stockage Supabase (Storage)
+
+Pour pouvoir importer vos images (avatar de profil et images de couverture des projets) directement depuis votre ordinateur sans avoir à copier-coller des URLs de l'internet :
+
+1. Allez sur votre tableau de bord **Supabase** et cliquez sur **Storage** dans la barre latérale gauche.
+2. Cliquez sur **New Bucket** (Nouveau compartiment).
+3. Nommez le bucket **`portfolio`**.
+4. Cochez l'option **Public Bucket** (Compartiment public) pour que tout le monde puisse afficher vos images.
+5. Cliquez sur **Save**.
+6. Cliquez sur **Policies** (Politiques de sécurité) pour le bucket `portfolio`.
+7. Sous **Object policies**, cliquez sur **New Policy** et créez une politique permettant les actions suivantes :
+   - Autoriser l'action **SELECT** (Lecture) pour tout le monde (public).
+   - Autoriser les actions **INSERT**, **UPDATE** et **DELETE** (Écritures) uniquement pour les utilisateurs connectés (**authenticated**).
+   *Note : Vous pouvez utiliser le modèle prédéfini "Give users access to only upload files to a bucket" ou simplement autoriser toutes les opérations au rôle `authenticated`.*
+
+---
+
 ## 🚀 Déploiement sur GitHub Pages (Gratuit)
 
 Le portfolio étant composé de fichiers statiques purs, son déploiement sur GitHub Pages se fait en quelques clics :

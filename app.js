@@ -727,6 +727,29 @@ function setupEventListeners() {
             showToast("Erreur lors de l'enregistrement", "error");
         }
     });
+
+    // --- File Upload Event Listeners ---
+    const btnUploadAvatar = document.getElementById("btn-upload-avatar");
+    const fileInputAvatar = document.getElementById("form-extra-avatar-file");
+    const inputAvatar = document.getElementById("form-extra-avatar");
+
+    if (btnUploadAvatar && fileInputAvatar && inputAvatar) {
+        btnUploadAvatar.addEventListener("click", () => fileInputAvatar.click());
+        fileInputAvatar.addEventListener("change", () => {
+            handleImageUpload(fileInputAvatar, inputAvatar, btnUploadAvatar);
+        });
+    }
+
+    const btnUploadProjectImage = document.getElementById("btn-upload-project-image");
+    const fileInputProjectImage = document.getElementById("form-project-image-file");
+    const inputProjectImage = document.getElementById("form-project-image");
+
+    if (btnUploadProjectImage && fileInputProjectImage && inputProjectImage) {
+        btnUploadProjectImage.addEventListener("click", () => fileInputProjectImage.click());
+        fileInputProjectImage.addEventListener("change", () => {
+            handleImageUpload(fileInputProjectImage, inputProjectImage, btnUploadProjectImage);
+        });
+    }
 }
 
 // Open project modal for edit or create
@@ -817,5 +840,51 @@ function sanitizeUrl(url) {
         return trimmed;
     }
     return "https://" + trimmed;
+}
+
+// Helper to handle image uploads to Supabase Storage
+async function handleImageUpload(fileInputEl, textInputEl, buttonEl) {
+    const file = fileInputEl.files[0];
+    if (!file) return;
+
+    // Save original button content
+    const originalText = buttonEl.innerHTML;
+    buttonEl.disabled = true;
+    buttonEl.innerHTML = `<span class="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>`;
+
+    try {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+        const filePath = `uploads/${fileName}`;
+
+        // Upload file to 'portfolio' bucket (assumes public bucket 'portfolio' exists in Supabase Storage)
+        const { data, error } = await supabaseClient.storage
+            .from('portfolio')
+            .upload(filePath, file, {
+                cacheControl: '3600',
+                upsert: false
+            });
+
+        if (error) {
+            console.error("Storage upload error details:", error);
+            throw error;
+        }
+
+        // Get Public URL
+        const { data: { publicUrl } } = supabaseClient.storage
+            .from('portfolio')
+            .getPublicUrl(filePath);
+
+        textInputEl.value = publicUrl;
+        showToast("Image importée avec succès !", "success");
+    } catch (err) {
+        console.error("Upload error:", err);
+        showToast("Erreur d'import : vérifiez que le bucket public 'portfolio' existe dans Supabase Storage.", "error");
+    } finally {
+        buttonEl.disabled = false;
+        buttonEl.innerHTML = originalText;
+        // Reset file input value so same file can be picked again
+        fileInputEl.value = "";
+    }
 }
 
