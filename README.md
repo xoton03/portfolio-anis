@@ -167,18 +167,41 @@ MarketFlow agrège les données issues de Google Ads, Meta Ads et TikTok Ads dan
 
 ## 🗄️ Configuration du Stockage Supabase (Storage)
 
-Pour pouvoir importer vos images (avatar de profil et images de couverture des projets) directement depuis votre ordinateur sans avoir à copier-coller des URLs de l'internet :
+Pour pouvoir importer vos images (avatar de profil et images de couverture des projets) directement depuis votre ordinateur sans avoir à copier-coller des URLs de l'internet, vous pouvez configurer le stockage en exécutant simplement ce script SQL dans l'onglet **SQL Editor** de votre console Supabase (recommandé) :
 
-1. Allez sur votre tableau de bord **Supabase** et cliquez sur **Storage** dans la barre latérale gauche.
-2. Cliquez sur **New Bucket** (Nouveau compartiment).
-3. Nommez le bucket **`portfolio`**.
-4. Cochez l'option **Public Bucket** (Compartiment public) pour que tout le monde puisse afficher vos images.
-5. Cliquez sur **Save**.
-6. Cliquez sur **Policies** (Politiques de sécurité) pour le bucket `portfolio`.
-7. Sous **Object policies**, cliquez sur **New Policy** et créez une politique permettant les actions suivantes :
-   - Autoriser l'action **SELECT** (Lecture) pour tout le monde (public).
-   - Autoriser les actions **INSERT**, **UPDATE** et **DELETE** (Écritures) uniquement pour les utilisateurs connectés (**authenticated**).
-   *Note : Vous pouvez utiliser le modèle prédéfini "Give users access to only upload files to a bucket" ou simplement autoriser toutes les opérations au rôle `authenticated`.*
+```sql
+-- 1. Création du bucket 'portfolio' s'il n'existe pas
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('portfolio', 'portfolio', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. Nettoyage des anciennes politiques si existantes pour éviter les doublons
+DROP POLICY IF EXISTS "Public Read Access on portfolio" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated Insert Access on portfolio" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated Update Access on portfolio" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated Delete Access on portfolio" ON storage.objects;
+
+-- 3. Création des politiques d'accès
+-- Lecture publique (tout le monde peut voir les images)
+CREATE POLICY "Public Read Access on portfolio" ON storage.objects
+FOR SELECT TO public USING (bucket_id = 'portfolio');
+
+-- Insertion (seul l'administrateur connecté peut ajouter)
+CREATE POLICY "Authenticated Insert Access on portfolio" ON storage.objects
+FOR INSERT TO authenticated WITH CHECK (bucket_id = 'portfolio');
+
+-- Modification (seul l'administrateur connecté peut mettre à jour)
+CREATE POLICY "Authenticated Update Access on portfolio" ON storage.objects
+FOR UPDATE TO authenticated USING (bucket_id = 'portfolio') WITH CHECK (bucket_id = 'portfolio');
+
+-- Suppression (seul l'administrateur connecté peut supprimer)
+CREATE POLICY "Authenticated Delete Access on portfolio" ON storage.objects
+FOR DELETE TO authenticated USING (bucket_id = 'portfolio');
+```
+
+*Alternative manuelle (depuis l'interface graphique Supabase Storage) :*
+1. Allez sur **Storage** > **New Bucket** > nommez-le `portfolio` > cochez **Public Bucket** > cliquez sur **Save**.
+2. Créez des politiques de sécurité autorisant l'action **SELECT** à tous (`public`) et les actions **INSERT, UPDATE, DELETE** aux utilisateurs connectés (`authenticated`).
 
 ---
 
