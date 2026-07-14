@@ -290,3 +290,87 @@ input:focus, textarea:focus {
         transform: translate(0px, 0px) scale(1);
     }
 }
+
+/* Premium Button Hover Sweep and Glow */
+button, 
+a[href^="#"].bg-gradient-to-b, 
+a.bg-blue-600,
+.tech-chip {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                box-shadow 0.3s ease, 
+                background-color 0.3s ease, 
+                border-color 0.3s ease !important;
+}
+
+button:hover, 
+a[href^="#"].bg-gradient-to-b:hover, 
+a.bg-blue-600:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.25) !important;
+}
+
+button:active, 
+a[href^="#"].bg-gradient-to-b:active, 
+a.bg-blue-600:active {
+    transform: translateY(0) scale(0.98) !important;
+}
+
+/* Sweep shine effect on hover */
+button::after,
+a[href^="#"].bg-gradient-to-b::after,
+a.bg-blue-600::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.15),
+        transparent
+    );
+    transform: skewX(-25deg);
+    transition: none;
+    pointer-events: none;
+}
+
+button:hover::after,
+a[href^="#"].bg-gradient-to-b:hover::after,
+a.bg-blue-600:hover::after {
+    left: 140%;
+    transition: left 0.8s ease-in-out;
+}
+
+/* Floating Navbar Link Animations */
+#navbar a, #navbar button {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                background-color 0.3s ease, 
+                color 0.3s ease !important;
+}
+
+#navbar a:hover, #navbar button:hover {
+    transform: scale(1.1) translateY(-2px);
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
+
+#navbar a:active, #navbar button:active {
+    transform: scale(0.95);
+}
+
+/* Social icons & back buttons hover scaling */
+a.hover\:text-blue-400, 
+#btn-back-home,
+.project-card-click {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+a.hover\:text-blue-400:hover, 
+#btn-back-home:hover {
+    transform: scale(1.1) translateY(-2px) !important;
+}
+
+

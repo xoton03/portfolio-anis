@@ -92,23 +92,41 @@
     
     <!-- ==================== VUE PRINCIPALE (HOME) ==================== -->
     <div id="main-view" class="spa-view flex flex-col flex-grow opacity-0 transition-opacity duration-1000">
-        <!-- TopNavBar -->
-        <nav class="fixed top-0 w-full z-40 bg-[#0f1417]/80 backdrop-blur-[25px] border-b border-white/10 transition-all duration-300" id="navbar">
-            <div class="flex justify-between items-center px-8 h-20 max-w-7xl mx-auto">
-                <div class="text-2xl font-bold text-white flex items-center gap-2">
-                    <span id="profile-name" class="editable-field" data-key="name">Anis Sayah</span>
-                </div>
-                <div class="hidden md:flex items-center gap-6">
-                    <a class="text-blue-400 font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-blue-400 after:rounded-full px-3 py-2 rounded-lg transition-all" href="#home" id="nav-home">Accueil</a>
-                    <a class="text-text-muted hover:text-white transition-colors px-3 py-2 rounded-lg" href="#about" id="nav-about">À propos</a>
-                    <a class="text-text-muted hover:text-white transition-colors px-3 py-2 rounded-lg" href="#projects" id="nav-projects">Projets</a>
-                    <a class="text-text-muted hover:text-white transition-colors px-3 py-2 rounded-lg" href="#contact" id="nav-contact">Contact</a>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button id="btn-admin-login-trigger" class="text-text-muted hover:text-white transition-colors p-2 rounded-full hover:bg-white/5 active:scale-95 duration-200" title="Connexion Administrateur">
-                        <span class="material-symbols-outlined">admin_panel_settings</span>
-                    </button>
-                </div>
+        <!-- Floating Brand Logo/Name -->
+        <div class="fixed top-6 left-6 z-40 glass-panel px-5 py-3 rounded-xl flex items-center shadow-lg border border-white/5 pointer-events-auto">
+            <span id="profile-name" class="font-bold text-white tracking-wide text-sm editable-field" data-key="name">Anis Sayah</span>
+        </div>
+
+        <!-- Vertical Navigation Bar (Floating on the right on desktop, horizontal dock on mobile) -->
+        <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:right-6 md:top-1/2 md:-translate-y-1/2 z-40 flex items-center" id="navbar">
+            <div class="glass-panel flex flex-row md:flex-col items-center gap-2 p-2 md:p-3 rounded-2xl md:rounded-3xl relative shadow-2xl border border-white/10">
+                
+                <a href="#home" id="nav-home" class="relative group flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-all duration-300" title="Accueil">
+                    <span class="material-symbols-outlined text-[20px]">home</span>
+                    <span class="absolute opacity-0 scale-95 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-xl bg-slate-900 border border-white/10 px-3 py-1.5 rounded-lg text-xs text-white font-semibold group-hover:opacity-100 group-hover:scale-100 bottom-16 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:right-16 md:top-1/2 md:-translate-y-1/2 md:translate-x-2 md:group-hover:translate-x-0 translate-y-2 group-hover:translate-y-0 z-50">Accueil</span>
+                </a>
+                
+                <a href="#about" id="nav-about" class="relative group flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-all duration-300" title="À propos">
+                    <span class="material-symbols-outlined text-[20px]">person</span>
+                    <span class="absolute opacity-0 scale-95 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-xl bg-slate-900 border border-white/10 px-3 py-1.5 rounded-lg text-xs text-white font-semibold group-hover:opacity-100 group-hover:scale-100 bottom-16 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:right-16 md:top-1/2 md:-translate-y-1/2 md:translate-x-2 md:group-hover:translate-x-0 translate-y-2 group-hover:translate-y-0 z-50">À propos</span>
+                </a>
+                
+                <a href="#projects" id="nav-projects" class="relative group flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-all duration-300" title="Projets">
+                    <span class="material-symbols-outlined text-[20px]">grid_view</span>
+                    <span class="absolute opacity-0 scale-95 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-xl bg-slate-900 border border-white/10 px-3 py-1.5 rounded-lg text-xs text-white font-semibold group-hover:opacity-100 group-hover:scale-100 bottom-16 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:right-16 md:top-1/2 md:-translate-y-1/2 md:translate-x-2 md:group-hover:translate-x-0 translate-y-2 group-hover:translate-y-0 z-50">Projets</span>
+                </a>
+                
+                <a href="#contact" id="nav-contact" class="relative group flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-all duration-300" title="Contact">
+                    <span class="material-symbols-outlined text-[20px]">mail</span>
+                    <span class="absolute opacity-0 scale-95 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-xl bg-slate-900 border border-white/10 px-3 py-1.5 rounded-lg text-xs text-white font-semibold group-hover:opacity-100 group-hover:scale-100 bottom-16 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:right-16 md:top-1/2 md:-translate-y-1/2 md:translate-x-2 md:group-hover:translate-x-0 translate-y-2 group-hover:translate-y-0 z-50">Contact</span>
+                </a>
+                
+                <div class="w-[1px] h-6 md:w-8 md:h-[1px] bg-white/10 mx-1 md:my-2"></div>
+                
+                <button id="btn-admin-login-trigger" class="relative group flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-all duration-300" title="Connexion Administrateur">
+                    <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+                    <span class="absolute opacity-0 scale-95 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-xl bg-slate-900 border border-white/10 px-3 py-1.5 rounded-lg text-xs text-white font-semibold group-hover:opacity-100 group-hover:scale-100 bottom-16 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:right-16 md:top-1/2 md:-translate-y-1/2 md:translate-x-2 md:group-hover:translate-x-0 translate-y-2 group-hover:translate-y-0 z-50">Connexion Admin</span>
+                </button>
             </div>
         </nav>
 

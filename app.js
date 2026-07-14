@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 6. Scroll animation triggers
     setupScrollAnimations();
+    setupScrollSpy();
     
     // Set current year in footer
     document.getElementById("current-year").textContent = new Date().getFullYear();
@@ -805,6 +806,36 @@ function setupScrollAnimations() {
     document.querySelectorAll(".reveal").forEach(el => {
         revealObserver.observe(el);
     });
+}
+
+// Setup active state scroll spy for navigation
+function setupScrollSpy() {
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll("#navbar a[href^='#']");
+
+    const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute("id");
+                navLinks.forEach(link => {
+                    if (link.getAttribute("href") === `#${id}`) {
+                        // Set active styling (blue glow background and blue color)
+                        link.classList.remove("text-text-muted", "hover:bg-white/5");
+                        link.classList.add("text-blue-400", "bg-blue-500/10");
+                    } else {
+                        // Reset classes
+                        link.classList.remove("text-blue-400", "bg-blue-500/10");
+                        link.classList.add("text-text-muted");
+                    }
+                });
+            }
+        });
+    }, {
+        threshold: 0.3,
+        rootMargin: "-25% 0px -45% 0px"
+    });
+
+    sections.forEach(sec => spyObserver.observe(sec));
 }
 
 // Show feedback toasts
