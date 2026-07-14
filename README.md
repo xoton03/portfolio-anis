@@ -98,8 +98,8 @@ VALUES (
     'https://lh3.googleusercontent.com/aida-public/AB6AXuD-EWCzR_5VX5Ec-BzPE5XVEHPMlEviGhQ_pl0TKArZC3nAMPMSdTBV5CuazYm-pcTrnE5ObIGLCPMSHGb1aFTIE-4YjD5Sl2zC-PrDUpLWhsLztifc2DaOUGoM4DyNLkiCji8vI2ZgV-y06CVV9FMRreZT3_u_uBxkDKgCv_kIWgs1b3isNB3MR1TYbWCacQOLOGZcdDI_B9FAr6jaB2TWjF1-bxIlRLEU3_v2kvFxMY0amMc2Rl8REQfWZ5VoY1nAQK393_JYk3Z2',
     ARRAY['Flutter', 'Dart', 'Firebase', 'SQLite', 'System Design', 'Marketing Strategy'],
     'sayahanis2003@gmail.com',
-    'https://github.com',
-    'https://linkedin.com'
+    'https://github.com/xoton03',
+    'https://www.linkedin.com/in/sayah-anis-6a85a13aa'
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Insertion des projets par défaut
