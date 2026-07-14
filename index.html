@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html class="dark" lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Anis Sayah - Portfolio Professionnel</title>
+    <meta name="description" content="Portfolio de développeur et stratège marketing de Anis Sayah. Spécialisé en Flutter, architectures de bases de données et développement d'applications haut de gamme.">
+    
+    <!-- Préconnexions polices -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    
+    <!-- Polices & Icônes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
+    
+    <!-- Tailwind CDN pour le prototypage rapide (Stitch Engine) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "bg-slate": "#0f1417",
+                        "surface-dark": "#171c1f",
+                        "primary-blue": "#2563eb",
+                        "secondary-green": "#10b981",
+                        "text-light": "#dfe3e7",
+                        "text-muted": "#c3c6d7"
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Styles customisés -->
+    <link href="style.css" rel="stylesheet">
+</head>
+<body class="antialiased min-h-screen flex flex-col font-sans bg-bg-slate text-text-light">
+
+    <!-- Admin Top Banner (Visible uniquement lorsque connecté) -->
+    <div id="admin-banner" class="hidden fixed top-0 left-0 w-full admin-banner text-white px-4 py-2 flex justify-between items-center z-[100] text-sm font-semibold">
+        <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] animate-pulse">security</span>
+            <span>MODE ÉDITEUR ACTIF</span>
+        </div>
+        <div class="flex gap-3">
+            <button id="btn-add-project-banner" class="bg-emerald-500 hover:bg-emerald-600 px-3 py-1 rounded transition text-xs flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">add</span> Ajouter Projet
+            </button>
+            <button id="btn-logout" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition text-xs flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">logout</span> Déconnexion
+            </button>
+        </div>
+    </div>
+
+    <!-- SQUELETTE D'AFFICHAGE SPA -->
+    
+    <!-- ==================== VUE PRINCIPALE (HOME) ==================== -->
+    <div id="main-view" class="spa-view flex flex-col flex-grow">
+        <!-- TopNavBar -->
+        <nav class="fixed top-0 w-full z-40 bg-[#0f1417]/80 backdrop-blur-[25px] border-b border-white/10 transition-all duration-300" id="navbar">
+            <div class="flex justify-between items-center px-8 h-20 max-w-7xl mx-auto">
+                <div class="text-2xl font-bold text-white flex items-center gap-2">
+                    <span id="profile-name" class="editable-field" data-key="name">Anis Sayah</span>
+                </div>
+                <div class="hidden md:flex items-center gap-6">
+                    <a class="text-blue-400 font-bold relative after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-blue-400 after:rounded-full px-3 py-2 rounded-lg transition-all" href="#home" id="nav-home">Accueil</a>
+                    <a class="text-text-muted hover:text-white transition-colors px-3 py-2 rounded-lg" href="#about" id="nav-about">À propos</a>
+                    <a class="text-text-muted hover:text-white transition-colors px-3 py-2 rounded-lg" href="#projects" id="nav-projects">Projets</a>
+                    <a class="text-text-muted hover:text-white transition-colors px-3 py-2 rounded-lg" href="#contact" id="nav-contact">Contact</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="btn-admin-login-trigger" class="text-text-muted hover:text-white transition-colors p-2 rounded-full hover:bg-white/5 active:scale-95 duration-200" title="Connexion Administrateur">
+                        <span class="material-symbols-outlined">admin_panel_settings</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Canvas -->
+        <main class="flex-grow pt-24 pb-20">
+            <!-- Hero Section -->
+            <section class="max-w-7xl mx-auto px-8 py-20 min-h-[80vh] flex flex-col md:flex-row items-center justify-center gap-12 relative reveal" id="home">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-500/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+                <div class="flex-1 flex flex-col items-start gap-6 z-10">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                        <span id="profile-title" class="editable-field block" data-key="title">Where Marketing Strategy Meets Clean Code.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-text-muted max-w-2xl leading-relaxed">
+                        <span id="profile-bio" class="editable-field block" data-key="bio">I bridge the gap between user acquisition and technical execution. Specializing in Flutter Web and robust database architectures to deliver seamless, conversion-focused digital experiences.</span>
+                    </p>
+                    <div class="flex flex-wrap gap-4 mt-2">
+                        <a class="bg-gradient-to-b from-blue-500 to-blue-600 hover:brightness-110 text-white px-6 py-3 rounded-lg text-md font-semibold flex items-center gap-2 transition shadow-lg shadow-blue-500/10 active:scale-95 duration-200" href="#projects">
+                            Voir les projets
+                            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                        </a>
+                        <a class="bg-transparent border border-white/10 hover:bg-white/5 text-white px-6 py-3 rounded-lg text-md font-semibold transition active:scale-95 duration-200" href="#contact">
+                            Me contacter
+                        </a>
+                    </div>
+                </div>
+                <div class="flex-1 flex justify-center items-center z-10 w-full max-w-md">
+                    <div class="glass-panel w-full aspect-square rounded-full p-4 relative flex items-center justify-center">
+                        <img id="profile-avatar" class="w-full h-full object-cover rounded-full border border-white/5 opacity-80 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-EWCzR_5VX5Ec-BzPE5XVEHPMlEviGhQ_pl0TKArZC3nAMPMSdTBV5CuazYm-pcTrnE5ObIGLCPMSHGb1aFTIE-4YjD5Sl2zC-PrDUpLWhsLztifc2DaOUGoM4DyNLkiCji8vI2ZgV-y06CVV9FMRreZT3_u_uBxkDKgCv_kIWgs1b3isNB3MR1TYbWCacQOLOGZcdDI_B9FAr6jaB2TWjF1-bxIlRLEU3_v2kvFxMY0amMc2Rl8REQfWZ5VoY1nAQK393_JYk3Z2" alt="Avatar Anis Sayah">
+                        <!-- Bouton d'édition d'image (Admin) -->
+                        <button id="btn-edit-avatar" class="hidden absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition active:scale-90">
+                            <span class="material-symbols-outlined text-[20px]">edit</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="max-w-7xl mx-auto px-8 py-20 reveal" id="about">
+                <div class="glass-panel rounded-2xl p-8 md:p-12 flex flex-col lg:flex-row gap-12">
+                    <div class="flex-1 space-y-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center gap-2">
+                            <span class="material-symbols-outlined text-blue-500">insights</span> La Dualité du Design & de la Donnée
+                        </h2>
+                        <p class="text-text-muted leading-relaxed text-md">
+                            Mon parcours combinant stratégie marketing et développement logiciel offre une perspective unique sur chaque projet. Je ne me contente pas de coder ; je conçois des solutions pour maximiser l'engagement utilisateur et la croissance de l'entreprise.
+                        </p>
+                        <p class="text-text-muted leading-relaxed text-md">
+                            Actuellement spécialisé dans la création d'applications hautes performances avec Flutter pour le web, combiné à des structures de bases de données évolutives sur Supabase, Firebase et SQLite.
+                        </p>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-emerald-400">code_blocks</span> Compétences Clés
+                        </h3>
+                        <div class="flex flex-wrap gap-3" id="skills-container">
+                            <!-- Rempli dynamiquement -->
+                        </div>
+                        
+                        <!-- Bouton d'édition des compétences (Admin) -->
+                        <button id="btn-edit-skills" class="hidden mt-6 border border-dashed border-white/20 hover:border-blue-500 hover:text-blue-400 text-text-muted px-4 py-2 rounded-lg text-sm transition flex items-center gap-1 active:scale-95">
+                            <span class="material-symbols-outlined text-[16px]">edit</span> Modifier les compétences
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="max-w-7xl mx-auto px-8 py-20 reveal" id="projects">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Projets Sélectionnés</h2>
+                        <p class="text-text-muted">Découvrez mes dernières réalisations, applications web et designs.</p>
+                    </div>
+                    <button id="btn-add-project" class="hidden bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-1 active:scale-95">
+                        <span class="material-symbols-outlined text-[18px]">add</span> Nouveau Projet
+                    </button>
+                </div>
+                
+                <!-- Grille des projets -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                    <!-- Rempli dynamiquement -->
+                    <div class="col-span-full py-20 text-center text-text-muted flex flex-col items-center gap-3">
+                        <span class="material-symbols-outlined animate-spin text-[32px] text-blue-500">progress_activity</span>
+                        <span>Chargement des projets...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CV / Resume Section -->
+            <section class="max-w-7xl mx-auto px-8 py-20 reveal" id="resume">
+                <div class="glass-panel rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="flex-grow space-y-4">
+                        <h2 class="text-3xl font-bold text-white">Parcours Professionnel</h2>
+                        <p class="text-text-muted max-w-2xl">
+                            Consultez mon profil complet, mes expériences en gestion de projet, marketing et développement d'applications mobiles et web dans mon CV détaillé.
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0 flex flex-col gap-2 w-full md:w-auto">
+                        <a id="cv-download-link" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition active:scale-95 duration-200">
+                            <span class="material-symbols-outlined">download</span> Télécharger mon CV
+                        </a>
+                        <button id="btn-edit-cv" class="hidden border border-dashed border-white/20 hover:border-blue-500 hover:text-blue-400 text-text-muted px-4 py-2 rounded-lg text-sm transition flex items-center justify-center gap-1 active:scale-95">
+                            <span class="material-symbols-outlined text-[16px]">link</span> Modifier le lien CV
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="max-w-3xl mx-auto px-8 py-20 reveal" id="contact">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-white mb-2">Travaillons Ensemble</h2>
+                    <p class="text-text-muted">Que ce soit pour un projet de développement, une mission de conseil marketing ou une opportunité d'embauche, ma boîte de réception est ouverte.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 md:p-12">
+                    <form class="space-y-6 flex flex-col" id="contact-form">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="font-mono text-xs text-text-muted uppercase tracking-wider" for="contact-name">Nom</label>
+                                <input class="w-full bg-[#0f1417] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/20 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all" id="contact-name" placeholder="John Doe" type="text" required>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="font-mono text-xs text-text-muted uppercase tracking-wider" for="contact-email">Email</label>
+                                <input class="w-full bg-[#0f1417] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/20 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all" id="contact-email" placeholder="john@example.com" type="email" required>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-mono text-xs text-text-muted uppercase tracking-wider" for="contact-message">Message</label>
+                            <textarea class="w-full bg-[#0f1417] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/20 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all resize-none" id="contact-message" placeholder="Parlez-moi de votre projet..." rows="4" required></textarea>
+                        </div>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white w-full py-4 rounded-lg font-semibold transition active:scale-95 duration-200 flex justify-center items-center gap-2" type="submit" id="btn-contact-submit">
+                            <span class="material-symbols-outlined text-[20px]">send</span> Envoyer le message
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Component -->
+        <footer class="w-full py-12 border-t border-white/5 bg-[#0a0f12]">
+            <div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-6">
+                <div>
+                    <div class="text-xl font-bold text-white opacity-90" id="footer-logo">Anis Sayah</div>
+                    <p class="text-xs text-text-muted mt-1">© <span id="current-year">2026</span> Anis Sayah. Fait avec précision.</p>
+                </div>
+                <div class="flex gap-8">
+                    <a class="text-xs text-text-muted hover:text-blue-400 transition-colors flex items-center gap-1" href="https://github.com" target="_blank" id="profile-github"><span class="material-symbols-outlined text-[16px]">code</span> GitHub</a>
+                    <a class="text-xs text-text-muted hover:text-blue-400 transition-colors flex items-center gap-1" href="https://linkedin.com" target="_blank" id="profile-linkedin"><span class="material-symbols-outlined text-[16px]">person</span> LinkedIn</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== VUE DÉTAILS PROJET ==================== -->
+    <div id="project-detail-view" class="spa-view hidden-view flex-grow flex flex-col">
+        <!-- Top Nav Projet -->
+        <nav class="fixed top-0 w-full z-40 bg-[#0f1417]/80 backdrop-blur-[25px] border-b border-white/10 h-20 flex items-center">
+            <div class="flex justify-between items-center w-full px-8 max-w-7xl mx-auto">
+                <button id="btn-back-home" class="flex items-center gap-2 text-text-muted hover:text-white font-semibold transition active:scale-95">
+                    <span class="material-symbols-outlined">arrow_back</span> Retour
+                </button>
+                <div class="flex gap-4">
+                    <a id="project-detail-demo-link" href="#" target="_blank" class="bg-gradient-to-b from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-1 transition active:scale-95">
+                        <span class="material-symbols-outlined text-[16px]">open_in_new</span> Live Demo
+                    </a>
+                    <a id="project-detail-github-link" href="#" target="_blank" class="border border-white/10 hover:bg-white/5 text-white px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-1 transition active:scale-95">
+                        <span class="material-symbols-outlined text-[16px]">code</span> Code Source
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="flex-grow pt-28 pb-20 max-w-4xl mx-auto px-8 w-full">
+            <header class="mb-12 space-y-4">
+                <span id="project-detail-subtitle" class="text-xs font-mono text-emerald-400 uppercase tracking-widest">Case Study</span>
+                <h1 id="project-detail-title" class="text-4xl md:text-5xl font-extrabold text-white">Nom du Projet</h1>
+                <div class="flex flex-wrap gap-2 mt-4" id="project-detail-tags">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </header>
+
+            <!-- Image de couverture du projet -->
+            <div class="w-full aspect-[16/9] rounded-2xl overflow-hidden glass-panel border border-white/10 mb-12 relative">
+                <div class="absolute inset-0 bg-blue-500/5 blur-[80px] -z-10 pointer-events-none"></div>
+                <img id="project-detail-image" class="w-full h-full object-cover opacity-90" src="" alt="Couverture du Projet">
+            </div>
+
+            <!-- Corps du Case Study (Markdown Rendu) -->
+            <article id="project-detail-content" class="prose prose-invert max-w-none text-text-muted">
+                <!-- Rempli dynamiquement -->
+            </article>
+        </main>
+
+        <footer class="w-full py-8 border-t border-white/5 bg-[#0a0f12] text-center text-xs text-text-muted">
+            <p>© 2026 Anis Sayah. Tous droits réservés.</p>
+        </footer>
+    </div>
+
+
+    <!-- ==================== MODALS & FORMULAIRES (ADMIN) ==================== -->
+
+    <!-- Modal Login Administrateur -->
+    <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden transition-all duration-300">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-8 relative flex flex-col">
+            <button id="btn-close-login" class="absolute top-4 right-4 text-text-muted hover:text-white transition active:scale-90">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-500">lock</span> Connexion Admin
+            </h3>
+            <p class="text-xs text-text-muted mb-6">Connectez-vous avec votre compte administrateur Supabase pour activer le mode d'édition du site.</p>
+            
+            <form id="login-form" class="space-y-4">
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="login-email">Adresse Email</label>
+                    <input class="w-full bg-[#12181b] border border-white/10 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" id="login-email" type="email" required>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="login-password">Mot de passe</label>
+                    <input class="w-full bg-[#12181b] border border-white/10 rounded-lg px-3 py-2 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" id="login-password" type="password" required>
+                </div>
+                <button type="submit" id="btn-login-submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-sm transition active:scale-95 flex justify-center items-center gap-2">
+                    Se connecter
+                </button>
+                <div id="login-error-msg" class="hidden text-xs text-red-400 font-semibold mt-2 text-center"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Formulaire Projet (Ajout/Modification) -->
+    <div id="project-form-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden transition-all duration-300 overflow-y-auto">
+        <div class="glass-panel w-full max-w-2xl rounded-2xl p-8 relative my-8 flex flex-col">
+            <button id="btn-close-project-modal" class="absolute top-4 right-4 text-text-muted hover:text-white transition active:scale-90">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 id="project-modal-title" class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-500">edit_note</span> Gérer le Projet
+            </h3>
+            
+            <form id="project-form" class="space-y-4">
+                <input type="hidden" id="form-project-id">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-title">Titre</label>
+                        <input class="admin-input rounded-lg px-3 py-2 text-white text-sm" id="form-project-title" type="text" required placeholder="ex. Mon super projet">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-subtitle">Sous-titre (Catégorie)</label>
+                        <input class="admin-input rounded-lg px-3 py-2 text-white text-sm" id="form-project-subtitle" type="text" placeholder="ex. Featured Project, Application mobile">
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-desc">Description Courte</label>
+                    <textarea class="admin-input rounded-lg px-3 py-2 text-white text-sm resize-none" id="form-project-desc" rows="2" required placeholder="Brève description affichée sur la grille des projets..."></textarea>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-content">Étude de Cas (Contenu Markdown / HTML)</label>
+                    <textarea class="admin-input rounded-lg px-3 py-2 text-white text-sm font-mono" id="form-project-content" rows="6" required placeholder="# Titre principal&#10;&#10;## Fonctionnalités&#10;- Liste des fonctions...&#10;&#10;## Stack Technique..."></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-image">URL de l'image de couverture</label>
+                        <input class="admin-input rounded-lg px-3 py-2 text-white text-sm" id="form-project-image" type="url" placeholder="https://ex.com/image.jpg">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-tags">Tags (séparés par des virgules)</label>
+                        <input class="admin-input rounded-lg px-3 py-2 text-white text-sm" id="form-project-tags" type="text" placeholder="Flutter, Supabase, State Mgmt">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-demo">Lien Démo (Live Url)</label>
+                        <input class="admin-input rounded-lg px-3 py-2 text-white text-sm" id="form-project-demo" type="url" placeholder="https://demo.com">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-project-github">Lien Code Source (GitHub)</label>
+                        <input class="admin-input rounded-lg px-3 py-2 text-white text-sm" id="form-project-github" type="url" placeholder="https://github.com/mon-code">
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="form-project-featured" class="rounded bg-[#12181b] border-white/10 text-blue-600 focus:ring-blue-500">
+                    <label for="form-project-featured" class="text-xs text-text-muted font-semibold select-none cursor-pointer">Mettre ce projet en avant (Featured)</label>
+                </div>
+
+                <button type="submit" id="btn-project-form-submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-sm transition active:scale-95 flex justify-center items-center gap-2 mt-4">
+                    Enregistrer le projet
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal d'édition des compétences -->
+    <div id="skills-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden transition-all duration-300">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-8 relative flex flex-col">
+            <button id="btn-close-skills" class="absolute top-4 right-4 text-text-muted hover:text-white transition active:scale-90">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-500">edit</span> Compétences
+            </h3>
+            <p class="text-xs text-text-muted mb-6">Ajoutez ou modifiez vos compétences techniques (une par ligne).</p>
+            
+            <form id="skills-form" class="space-y-4">
+                <div class="flex flex-col gap-1">
+                    <textarea class="admin-input w-full rounded-lg px-3 py-2 text-white text-sm font-mono" id="form-skills-list" rows="8" required placeholder="Flutter&#10;Dart&#10;Supabase&#10;SQLite"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-sm transition active:scale-95">
+                    Enregistrer les compétences
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal d'édition du lien CV et images -->
+    <div id="extra-fields-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden transition-all duration-300">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-8 relative flex flex-col">
+            <button id="btn-close-extra" class="absolute top-4 right-4 text-text-muted hover:text-white transition active:scale-90">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-500">settings</span> Liens et Médias
+            </h3>
+            <p class="text-xs text-text-muted mb-6">Mettez à jour vos liens de réseaux sociaux, de téléchargement CV ou votre image de profil.</p>
+            
+            <form id="extra-fields-form" class="space-y-4">
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-extra-avatar">URL Image de Profil</label>
+                    <input class="admin-input w-full rounded-lg px-3 py-2 text-white text-sm" id="form-extra-avatar" type="url" placeholder="https://ex.com/avatar.png">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-extra-cv">URL du CV (Téléchargement)</label>
+                    <input class="admin-input w-full rounded-lg px-3 py-2 text-white text-sm" id="form-extra-cv" type="url" placeholder="https://drive.google.com/.../cv.pdf">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-extra-github">URL GitHub</label>
+                    <input class="admin-input w-full rounded-lg px-3 py-2 text-white text-sm" id="form-extra-github" type="url" placeholder="https://github.com/mon-username">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-mono text-[10px] text-text-muted uppercase tracking-wider" for="form-extra-linkedin">URL LinkedIn</label>
+                    <input class="admin-input w-full rounded-lg px-3 py-2 text-white text-sm" id="form-extra-linkedin" type="url" placeholder="https://linkedin.com/in/mon-profil">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-sm transition active:scale-95">
+                    Enregistrer les données
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 border border-white/10 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50 text-sm">
+        <span class="material-symbols-outlined text-emerald-400" id="toast-icon">check_circle</span>
+        <span id="toast-message">Action réussie !</span>
+    </div>
+
+    <!-- Librairies externes CDN (Marked pour rendu Markdown) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Logique application -->
+    <script src="app.js"></script>
+</body>
+</html>
