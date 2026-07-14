@@ -603,10 +603,10 @@ function setupEventListeners() {
         const subtitle = document.getElementById("form-project-subtitle").value.trim();
         const description = document.getElementById("form-project-desc").value.trim();
         const content = document.getElementById("form-project-content").value.trim();
-        const image_url = document.getElementById("form-project-image").value.trim();
+        const image_url = sanitizeUrl(document.getElementById("form-project-image").value);
         const tagsStr = document.getElementById("form-project-tags").value.trim();
-        const demo_url = document.getElementById("form-project-demo").value.trim();
-        const github_url = document.getElementById("form-project-github").value.trim();
+        const demo_url = sanitizeUrl(document.getElementById("form-project-demo").value);
+        const github_url = sanitizeUrl(document.getElementById("form-project-github").value);
         const featured = document.getElementById("form-project-featured").checked;
 
         const tags = tagsStr.split(",").map(t => t.trim()).filter(t => t.length > 0);
@@ -618,8 +618,8 @@ function setupEventListeners() {
             content,
             image_url,
             tags,
-            demo_url: demo_url || null,
-            github_url: github_url || null,
+            demo_url,
+            github_url,
             featured,
             updated_at: new Date()
         };
@@ -701,19 +701,19 @@ function setupEventListeners() {
 
     document.getElementById("extra-fields-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const avatar_url = document.getElementById("form-extra-avatar").value.trim();
-        const cv_url = document.getElementById("form-extra-cv").value.trim();
-        const github_url = document.getElementById("form-extra-github").value.trim();
-        const linkedin_url = document.getElementById("form-extra-linkedin").value.trim();
+        const avatar_url = sanitizeUrl(document.getElementById("form-extra-avatar").value);
+        const cv_url = sanitizeUrl(document.getElementById("form-extra-cv").value);
+        const github_url = sanitizeUrl(document.getElementById("form-extra-github").value);
+        const linkedin_url = sanitizeUrl(document.getElementById("form-extra-linkedin").value);
 
         try {
             const { error } = await supabaseClient
                 .from("portfolio_profile")
                 .update({
-                    avatar_url: avatar_url || null,
-                    cv_url: cv_url || null,
-                    github_url: github_url || null,
-                    linkedin_url: linkedin_url || null,
+                    avatar_url,
+                    cv_url,
+                    github_url,
+                    linkedin_url,
                     updated_at: new Date()
                 })
                 .eq("id", 1);
@@ -807,3 +807,15 @@ function showToast(message, type = "success") {
         toast.className = "fixed bottom-5 right-5 bg-slate-900 border border-white/10 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50 text-sm";
     }, 3000);
 }
+
+// Sanitize URL helper to automatically prepend https:// if missing
+function sanitizeUrl(url) {
+    if (!url) return null;
+    let trimmed = url.trim();
+    if (trimmed === "") return null;
+    if (trimmed.startsWith("#") || trimmed.startsWith("/") || /^https?:\/\//i.test(trimmed)) {
+        return trimmed;
+    }
+    return "https://" + trimmed;
+}
+
