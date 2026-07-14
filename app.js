@@ -66,10 +66,15 @@ function runSplashScreen() {
         }
     }, 200);
 
-    // 2. Fade out the splash screen overlay and restore scrolling
+    // 2. Fade out the splash screen overlay, fade in the main site, and restore scrolling
     setTimeout(() => {
         if (splashScreen) {
             splashScreen.classList.add("splash-fade-out");
+        }
+        const mainViewEl = document.getElementById("main-view");
+        if (mainViewEl) {
+            mainViewEl.classList.remove("opacity-0");
+            mainViewEl.classList.add("opacity-100");
         }
         document.body.classList.remove("overflow-hidden");
     }, 2500);
@@ -263,7 +268,7 @@ function renderProjects() {
         const article = document.createElement("article");
         // Featured project gets larger layout
         const isFeatured = project.featured;
-        article.className = `glass-panel rounded-2xl overflow-hidden group flex flex-col hover-glow transition-all duration-300 relative ${isFeatured ? 'md:col-span-2' : ''}`;
+        article.className = `glass-panel rounded-2xl overflow-hidden group flex flex-col hover-glow transition-all duration-300 relative reveal ${isFeatured ? 'md:col-span-2' : ''}`;
         
         article.innerHTML = `
             <!-- Edit Controls Overlay (Visible only to admin) -->
@@ -341,6 +346,9 @@ function renderProjects() {
             });
         });
     }
+    
+    // Re-initialize scroll animations for dynamically added cards
+    setupScrollAnimations();
 }
 
 // Render project detail page
